@@ -328,7 +328,7 @@ const MapModal = ({ route, isOpen, onClose, origin, destination }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-2 sm:p-4 backdrop-blur-sm animate-fadeIn">
       <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-7xl h-[95vh] sm:h-[90vh] flex flex-col overflow-hidden animate-slideUp">
-        {/* Enhanced Modal Header */}
+        {/* Mobile-Optimized Modal Header */}
         <div className="relative p-3 sm:p-6 bg-gradient-to-r from-blue-600 via-purple-600 to-green-600 text-white">
           <div className="absolute inset-0 bg-black bg-opacity-10"></div>
           <div className="relative z-10">
@@ -338,53 +338,64 @@ const MapModal = ({ route, isOpen, onClose, origin, destination }) => {
                   <span className="text-lg sm:text-2xl">🗺️</span>
                 </div>
                 <div>
-                  <h2 className="text-lg sm:text-2xl font-bold flex flex-col sm:flex-row sm:items-center">
+                  <h2 className="text-sm sm:text-2xl font-bold">
                     Route Map
-                    <span className="mt-1 sm:ml-3 sm:mt-0 px-2 sm:px-3 py-1 bg-white bg-opacity-20 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm">
+                    <span className="ml-2 px-2 py-1 bg-white bg-opacity-20 rounded-full text-xs font-medium backdrop-blur-sm">
                       {route?.route_type}
                     </span>
                   </h2>
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 mt-2 text-blue-100 space-y-1 sm:space-y-0">
-                    <div className="flex items-center space-x-1">
-                      <span className="text-sm">📍</span>
-                      <span className="text-xs sm:text-sm font-medium truncate">{origin}</span>
-                    </div>
-                    <div className="text-blue-200">→</div>
-                    <div className="flex items-center space-x-1">
-                      <span className="text-sm">🎯</span>
-                      <span className="text-sm font-medium">{destination}</span>
-                    </div>
+                  <div className="text-xs sm:text-sm text-blue-100 mt-1">
+                    <span className="truncate">{origin}</span> → <span className="truncate">{destination}</span>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-6">
-                  <div className="text-center">
-                    <div className="text-xl font-bold">{route?.duration}</div>
-                    <div className="text-xs text-blue-200">minutes</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-xl font-bold">₹{route?.cost}</div>
-                    <div className="text-xs text-blue-200">total cost</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-xl font-bold">{route?.transfers}</div>
-                    <div className="text-xs text-blue-200">transfers</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-xl font-bold text-green-300">{route?.eco_score}/10</div>
-                    <div className="text-xs text-blue-200">eco score</div>
-                  </div>
-                </div>
-                <button
-                  onClick={onClose}
-                  className="p-2 hover:bg-white hover:bg-opacity-20 rounded-xl transition-all duration-200 text-white hover:text-blue-100 flex-shrink-0"
-                  title="Close map"
-                >
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
+              <button
+                onClick={onClose}
+                className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
+              >
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* Mobile-friendly Quick Stats */}
+            <div className="grid grid-cols-4 gap-2 mt-3 sm:hidden">
+              <div className="text-center">
+                <div className="text-sm font-bold">{route?.duration}m</div>
+                <div className="text-xs text-blue-200">Time</div>
+              </div>
+              <div className="text-center">
+                <div className="text-sm font-bold">₹{route?.cost}</div>
+                <div className="text-xs text-blue-200">Cost</div>
+              </div>
+              <div className="text-center">
+                <div className="text-sm font-bold">{route?.transfers}</div>
+                <div className="text-xs text-blue-200">Transfer</div>
+              </div>
+              <div className="text-center">
+                <div className="text-sm font-bold text-green-300">{route?.eco_score}/10</div>
+                <div className="text-xs text-blue-200">Eco</div>
+              </div>
+            </div>
+            
+            {/* Desktop Stats (hidden on mobile) */}
+            <div className="hidden sm:flex items-center space-x-6 mt-3">
+              <div className="text-center">
+                <div className="text-xl font-bold">{route?.duration}</div>
+                <div className="text-xs text-blue-200">minutes</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xl font-bold">₹{route?.cost}</div>
+                <div className="text-xs text-blue-200">total cost</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xl font-bold">{route?.transfers}</div>
+                <div className="text-xs text-blue-200">transfers</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xl font-bold text-green-300">{route?.eco_score}/10</div>
+                <div className="text-xs text-blue-200">eco score</div>
               </div>
             </div>
           </div>

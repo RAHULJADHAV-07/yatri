@@ -84,130 +84,154 @@ const RouteResults = ({ routes, selectedRoute, onRouteSelect, loading, error, or
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-3 sm:p-6">
-      <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4 flex items-center">
+    <div className="bg-white rounded-xl shadow-lg p-2 sm:p-6">
+      <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 flex items-center px-2 sm:px-0">
         <span className="mr-2">📍</span>
         Route Options ({routes.length})
       </h3>
       
-      <div className="space-y-3">
+      <div className="space-y-3 sm:space-y-4">
         {routes.map((route) => (
           <div
             key={route.route_id}
-            className={`route-card p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-all ${
+            className={`route-card rounded-xl border-2 cursor-pointer transition-all shadow-sm hover:shadow-md ${
               selectedRoute?.route_id === route.route_id
-                ? 'border-blue-500 bg-blue-50 shadow-md'
+                ? 'border-blue-500 bg-blue-50 shadow-lg'
                 : 'border-gray-200 bg-white hover:border-gray-300'
             }`}
             onClick={() => handleRouteClick(route)}
           >
-            {/* Route Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 space-y-2 sm:space-y-0">
-              <div className="flex items-center space-x-2">
-                <span className={`px-2 py-1 text-xs font-medium rounded ${getRouteTypeColor(route.route_type)}`}>
-                  {route.route_type}
-                </span>
-                <div className="text-sm font-semibold text-gray-800">
-                  {route.duration} min
+            {/* Mobile-optimized Route Header */}
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-2">
+                  <span className={`px-3 py-1 text-sm font-medium rounded-full ${getRouteTypeColor(route.route_type)}`}>
+                    {route.route_type}
+                  </span>
+                  <div className="text-lg font-bold text-gray-800">
+                    {route.duration}m
+                  </div>
                 </div>
-              </div>
-              <div className="flex flex-wrap items-center gap-2">
                 <div className="text-right">
-                  <div className="text-sm font-medium text-gray-800">₹{route.cost}</div>
+                  <div className="text-lg font-bold text-green-600">₹{route.cost}</div>
                   <div className="text-xs text-gray-500">Score: {route.score}/10</div>
                 </div>
+              </div>
+
+              {/* Action buttons - Mobile optimized */}
+              <div className="flex space-x-2 mb-3">
                 <button
                   onClick={(e) => handleMapClick(route, e)}
-                  className="bg-green-500 hover:bg-green-600 text-white px-2 sm:px-3 py-1 rounded text-xs font-medium transition-colors flex items-center space-x-1"
+                  className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded-lg font-medium transition-colors flex items-center justify-center space-x-2"
                   title="Show route on map"
                 >
                   <span>🗺️</span>
-                  <span className="hidden sm:inline">Map</span>
+                  <span>View Map</span>
                 </button>
                 <button
                   onClick={(e) => handleDetailClick(route, e)}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-2 sm:px-3 py-1 rounded text-xs font-medium transition-colors"
+                  className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded-lg font-medium transition-colors flex items-center justify-center space-x-2"
                   title="View detailed route information"
                 >
-                  <span className="hidden sm:inline">Details</span>
-                  <span className="sm:hidden">ℹ️</span>
+                  <span>ℹ️</span>
+                  <span>Details</span>
                 </button>
               </div>
-            </div>
 
-            {/* Route Details */}
-            <div className="space-y-2">
-              {/* Transfers and Eco */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm space-y-1 sm:space-y-0">
-                <div className="flex items-center text-gray-600">
-                  <span className="mr-1">🔄</span>
-                  {route.transfers} transfer{route.transfers !== 1 ? 's' : ''}
-                </div>
-                <div className="flex items-center text-gray-600">
-                  <span className="mr-1">🌱</span>
-                  Eco: {route.eco_score}/10
-                </div>
-              </div>
-
-              {/* Route Steps */}
-              <div className="flex flex-wrap items-center gap-1 text-xs">
-                {route.legs && route.legs.slice(0, 4).map((leg, index) => (
-                  <React.Fragment key={index}>
-                    <div className="flex items-center bg-gray-100 rounded px-2 py-1">
-                      <span className="mr-1">{getModeIcon(leg.mode)}</span>
-                      <span className="text-gray-700">
-                        {leg.mode === 'WALK' ? `${leg.duration}m` : leg.route || leg.mode}
-                      </span>
+              {/* Mobile-friendly Route Details */}
+              <div className="space-y-3">
+                {/* Quick Stats Row */}
+                <div className="flex justify-between items-center bg-gray-50 rounded-lg p-3">
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center text-gray-600">
+                      <span className="mr-1">🔄</span>
+                      <span className="font-medium">{route.transfers}</span>
+                      <span className="text-sm ml-1">transfer{route.transfers !== 1 ? 's' : ''}</span>
                     </div>
-                    {index < Math.min(route.legs.length - 1, 3) && (
-                      <span className="text-gray-400">→</span>
-                    )}
-                  </React.Fragment>
-                ))}
-                {route.legs && route.legs.length > 4 && (
-                  <span className="text-gray-400">...</span>
-                )}
-              </div>
+                    <div className="flex items-center text-gray-600">
+                      <span className="mr-1">🌱</span>
+                      <span className="font-medium">{route.eco_score}</span>
+                      <span className="text-sm ml-1">/10</span>
+                    </div>
+                  </div>
+                </div>
 
-              {/* Last Mile Options */}
-              {route.last_mile && route.last_mile.length > 0 && (
-                <div className="pt-2 border-t border-gray-100">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-500">Last-mile options:</span>
-                    <div className="flex space-x-1">
+                {/* Route Journey Steps - Mobile optimized */}
+                <div className="space-y-2">
+                  <div className="text-sm font-medium text-gray-700 mb-2">Journey Steps:</div>
+                  <div className="grid grid-cols-1 gap-2">
+                    {route.legs && route.legs.slice(0, 5).map((leg, index) => (
+                      <div key={index} className="flex items-center justify-between bg-gray-50 rounded-lg p-2">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-lg">{getModeIcon(leg.mode)}</span>
+                          <div>
+                            <div className="font-medium text-sm text-gray-800">
+                              {leg.mode === 'WALK' ? 
+                                `Walk ${leg.duration}m` : 
+                                (leg.route || leg.mode)
+                              }
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {leg.from_name} → {leg.to_name}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {leg.duration}min
+                        </div>
+                      </div>
+                    ))}
+                    {route.legs && route.legs.length > 5 && (
+                      <div className="text-center text-sm text-gray-500 py-1">
+                        ... and {route.legs.length - 5} more steps
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Last Mile Options - Mobile friendly */}
+                {route.last_mile && route.last_mile.length > 0 && (
+                  <div className="border-t border-gray-100 pt-3">
+                    <div className="text-sm font-medium text-gray-700 mb-2">Last-mile options:</div>
+                    <div className="grid grid-cols-3 gap-2">
                       {route.last_mile.slice(0, 3).map((option, index) => (
                         <button
                           key={index}
-                          className="text-xs bg-blue-100 hover:bg-blue-200 text-blue-800 px-2 py-1 rounded transition-colors"
+                          className="bg-blue-50 hover:bg-blue-100 text-blue-800 p-2 rounded-lg transition-colors text-center"
                           title={`${option.name}: ₹${option.cost}, ${option.time} min`}
                         >
-                          {option.icon} ₹{option.cost}
+                          <div className="text-lg mb-1">{option.icon}</div>
+                          <div className="text-xs font-medium">₹{option.cost}</div>
+                          <div className="text-xs text-blue-600">{option.time}m</div>
                         </button>
                       ))}
                     </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Route Comparison */}
+      {/* Mobile-optimized Route Comparison */}
       {routes.length > 1 && (
-        <div className="mt-4 pt-4 border-t border-gray-200">
-          <div className="text-xs text-gray-500 space-y-1">
-            <div className="flex justify-between">
-              <span>Fastest route:</span>
-              <span>{Math.min(...routes.map(r => r.duration))} min</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Cheapest route:</span>
-              <span>₹{Math.min(...routes.map(r => r.cost))}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Fewest transfers:</span>
-              <span>{Math.min(...routes.map(r => r.transfers))}</span>
+        <div className="mt-4 mx-2 sm:mx-0">
+          <div className="bg-gray-50 rounded-xl p-4">
+            <h4 className="font-medium text-gray-800 mb-3">Quick Comparison</h4>
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div className="bg-white rounded-lg p-3">
+                <div className="text-xs text-gray-500 mb-1">Fastest</div>
+                <div className="font-bold text-blue-600">{Math.min(...routes.map(r => r.duration))}m</div>
+              </div>
+              <div className="bg-white rounded-lg p-3">
+                <div className="text-xs text-gray-500 mb-1">Cheapest</div>
+                <div className="font-bold text-green-600">₹{Math.min(...routes.map(r => r.cost))}</div>
+              </div>
+              <div className="bg-white rounded-lg p-3">
+                <div className="text-xs text-gray-500 mb-1">Fewest Transfers</div>
+                <div className="font-bold text-purple-600">{Math.min(...routes.map(r => r.transfers))}</div>
+              </div>
             </div>
           </div>
         </div>
