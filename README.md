@@ -316,6 +316,4 @@ For technical issues or questions about the Yatri journey planning system, pleas
 
 **Status**: ✅ Fully functional with mock data | ⚠️ OTP server optional  
 **Last Updated**: System verified and operational  
-**Demo Ready**: Yes - http://localhost:3000/standalone.html#   Y a t r i - H a c k a t h o n  
- #   y a t r i  
- 
+**Demo Ready**: Yes - http://localhost:3000/standalone.html#
