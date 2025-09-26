@@ -148,6 +148,10 @@ Thumbs.db
 id_rsa*
 *.pub
 
+# SSH agent files (accidentally created)
+eval $(ssh-agent -s)
+eval $(ssh-agent -s).pub
+
 # Backup files
 *.bak
 *.backup
